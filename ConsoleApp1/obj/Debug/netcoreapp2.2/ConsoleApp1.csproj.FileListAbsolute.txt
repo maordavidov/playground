@@ -1,0 +1,12 @@
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.deps.json
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.runtimeconfig.json
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.runtimeconfig.dev.json
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.dll
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.csprojAssemblyReference.cache
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.AssemblyInfoInputs.cache
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.AssemblyInfo.cs
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.pdb
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.dll
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.pdb
+C:\Users\Maor Davidov\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp2.2\Templates\IClient.mustache
