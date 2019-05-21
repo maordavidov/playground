@@ -1,7 +1,9 @@
 ﻿using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CSharp.Models;
+using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ConsoleApp1
 {
@@ -11,11 +13,14 @@ namespace ConsoleApp1
         private StubleRenderer _stuble;
         private string _subsystem;
         private string _serviceName;
+        private (string Path, string HttpMethod, string Tag)[] _tags;
 
-        public TempalteRenderer(string subsystem, string serviceName, object model)
+        public TempalteRenderer(string subsystem, string serviceName, (string Path, string HttpMethod, string Tag)[] tags, object model)
         {
             _subsystem = subsystem;
             _serviceName = serviceName;
+            _tags = tags;
+
             this._model = (CSharpClientTemplateModel)model;
             _stuble = new StubleRenderer();
         }
@@ -41,8 +46,7 @@ namespace ConsoleApp1
                 Operations = operations
             };
 
-
-            new SwaggerVisitor().Visit(_model);
+            new SwaggerCSharpClientVisitor().Visit(_model);
 
            string con = _stuble.RenderAsync(template, content).Result;
 

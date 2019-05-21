@@ -1,28 +1,40 @@
-﻿using NSwag.CodeGeneration.CSharp.Models;
+﻿using NSwag;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ConsoleApp1
 {
     public class SwaggerVisitor
     {
-        public void Visit(CSharpClientTemplateModel model)
+        private List<(string, string, string)> _tags;
+
+        public SwaggerVisitor Visit(SwaggerDocument document)
         {
-            Visit(model.Operations);
+            _tags = new List<(string, string, string)>();
+
+            foreach (var path in document.Paths)
+            {
+                Visit(path);
+            }
+
+            return this;
         }
 
-        protected virtual void Visit(IEnumerable<CSharpOperationModel> operations)
+        protected virtual void Visit(KeyValuePair<string, SwaggerPathItem> path)
         {
-            foreach (var op in operations)
+            var pathItem = path.Value;
+
+            foreach (KeyValuePair<string, SwaggerOperation> pair in pathItem)
             {
-                Visit(op);
+                SwaggerOperation op = pair.Value;
+                string tag = op.Tags.Single();
+
+                _tags.Add((path.Key, pair.Key, tag));
             }
         }
 
-        protected virtual void Visit(CSharpOperationModel op)
-        {
-            
-        }
+        public (string Path, string HttpMethod, string Tag)[] Tags => _tags.ToArray();
     }
 }

@@ -35,7 +35,7 @@ namespace ConsoleApp1
                 CSharpGeneratorSettings = {
                     
                     Namespace = theNamespace,
-                    TemplateFactory = new SwaggerTemplateFactory(subsystem, serviceName)
+                    TemplateFactory = new SwaggerTemplateFactory(document, subsystem, serviceName)
                 }
             };
 
