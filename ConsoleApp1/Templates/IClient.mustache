@@ -7,34 +7,23 @@ namespace {{Subsystem}}.{{ServiceName}}.WebApi.Client
 {
     public interface I{{Tag}}Client
     {
-        {{#Operations}}
-		    Task<{{ResultType}}> {{Id}}();
-        {{/Operations}}
+{{#Operations}}
+{{#IsVoid}}
+{{#HasInput}}
+	Task {{Id}}({{Name}}Request request, CancellationToken cancelToken = default);
+{{/HasInput}}
+{{^HasInput}}
+    Task {{Id}}(CancellationToken cancelToken = default);
+{{/HasInput}}
+{{/IsVoid}}
+{{^IsVoid}}
+{{#HasInput}}
+	Task<{{ResultType}}> {{Id}}({{Name}}Request request, CancellationToken cancelToken = default);
+{{/HasInput}}
+{{^HasInput}}
+    Task<{{ResultType}}> {{Id}}(CancellationToken cancelToken = default);
+{{/HasInput}}
+{{/IsVoid}}
+{{/Operations}}
     }
-
-	public class {{Tag}}Client : I{{Tag}}Client
-	{
-		private ApiClient _client;
-
-		public {{Tag}}Client(ApiClient client)
-		{
-			_client = client;
-		}
-    
-        {{#Operations}}
-		    
-            {{#IsVoid}}
-                public Task {{Id}}()
-            {{/IsVoid}}
-            {{^IsVoid}}
-                public Task<{{ResultType}}> {{Id}}()
-            {{/IsVoid}}
-                {
-			        string path = {{Path}};
-                    return _client.{{HttpMethod}}Async<{{TRequest}},{{ResultType}}>(path);
-		        }
-        {{/Operations}}
-        
-
-	}
 }

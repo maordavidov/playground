@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace {{Subsystem}}.{{ServiceName}}.WebApi.Client
+{
+    public class {{Tag}}Client : I{{Tag}}Client
+    {
+        private ApiClient _client;
+
+        public {{Tag}}Client(ApiClient client)
+        {
+            _client = client;
+        }
+
+
+{{#Operations}}
+{{#IsVoid}}
+{{#HasInput}}
+	Task {{Id}}({{Name}}Request request, CancellationToken cancelToken = default)
+{{/HasInput}}
+{{^HasInput}}
+    Task {{Id}}(CancellationToken cancelToken = default)
+{{/HasInput}}
+{{/IsVoid}}
+{{^IsVoid}}
+{{#HasInput}}
+	Task<{{ResultType}}> {{Id}}({{Name}}Request request, CancellationToken cancelToken = default)
+{{/HasInput}}
+{{^HasInput}}
+    Task<{{ResultType}}> {{Id}}(CancellationToken cancelToken = default)
+{{/HasInput}}
+{{/IsVoid}}
+        {
+            string path = $"{{Path}}";
+            return _client.{{HttpMethod}}Async<{{TRequest}},{{ResultType}}>(path);
+        }
+{{/Operations}}
+    }
+}

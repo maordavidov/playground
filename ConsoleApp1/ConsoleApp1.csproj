@@ -13,6 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Templates\Client.mustache">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\IClient.mustache">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -16,9 +16,9 @@ C:\projects\pppplayground\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.runtim
 C:\projects\pppplayground\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.runtimeconfig.dev.json
 C:\projects\pppplayground\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.dll
 C:\projects\pppplayground\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.pdb
-C:\projects\pppplayground\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.csprojAssemblyReference.cache
 C:\projects\pppplayground\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.csproj.CoreCompileInputs.cache
 C:\projects\pppplayground\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.AssemblyInfoInputs.cache
 C:\projects\pppplayground\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.AssemblyInfo.cs
 C:\projects\pppplayground\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.dll
 C:\projects\pppplayground\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.pdb
+C:\projects\pppplayground\ConsoleApp1\bin\Debug\netcoreapp2.2\Templates\Client.mustache

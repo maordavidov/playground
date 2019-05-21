@@ -1,13 +1,15 @@
 ﻿using NSwag.CodeGeneration.CSharp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ConsoleApp1
 {
     public class SwaggerCSharpClientVisitor
     {
         private (string Path, string HttpMethod, string Tag)[] _tags;
-        private List<(string Tag, CSharpOperationModel Operation)> _operations;
+        private List<(string Tag, object Operation)> _operations;
 
         public SwaggerCSharpClientVisitor((string Path, string HttpMethod, string Tag)[] tags)
         {
@@ -16,7 +18,7 @@ namespace ConsoleApp1
 
         public SwaggerCSharpClientVisitor Visit(CSharpClientTemplateModel model)
         {
-            _operations = new List<(string, CSharpOperationModel)>();
+            _operations = new List<(string, object)>();
             Visit(model.Operations);
             return this;
         }
@@ -32,13 +34,44 @@ namespace ConsoleApp1
         protected virtual void Visit(CSharpOperationModel op)
         {
             string method = op.HttpMethodLower;
-            string path = op.Path;
 
-            string tag = _tags.FindTag(method, path);
+            string tag = _tags.FindTag(method, op.Path);
 
-            _operations.Add((tag, op));
+            string path = ModifyPath(op.Path);
+
+            var theOp = new
+            {
+                op.Id,
+                Name = op.ActualOperationName,
+                ResultType = op.SyncResultType,
+                Path = path,
+                HttpMethod = op.HttpMethodUpper,
+                IsVoid = op.SyncResultType.Equals("void"),
+                HasInput = op.HasBody || op.HasQueryParameters || op.PathParameters.Any()
+            };
+
+            _operations.Add((tag, theOp));
 
             Visit(op.Path, op.PathParameters, op.QueryParameters);
+        }
+
+        private string ModifyPath(string path)
+        {
+            var matches = Regex.Matches(path, "{(?<PathParam>.+?)}");
+
+            foreach (Match match in matches)
+            {
+                if(match.Success == false)
+                {
+                    continue;
+                }
+
+                string pathParam = match.Groups["PathParam"].Value;
+                path = path.Replace(pathParam, $"request.{pathParam}");
+            }
+
+
+            return path;
         }
 
         private void Visit(string path, IEnumerable<CSharpParameterModel> pathParameters, IEnumerable<CSharpParameterModel> queryParameters)
@@ -46,6 +79,6 @@ namespace ConsoleApp1
 
         }
 
-        public ILookup<string, CSharpOperationModel> Operations => _operations.ToLookup(k => k.Tag, k => k.Operation);
+        public ILookup<string, object> Operations => _operations.ToLookup(k => k.Tag, k => k.Operation);
     }
 }

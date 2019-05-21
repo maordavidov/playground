@@ -1,6 +1,7 @@
 ﻿using NJsonSchema.CodeGeneration;
 using NSwag.CodeGeneration.CSharp.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -27,24 +28,17 @@ namespace ConsoleApp1
 
         public string Render()
         {
-            string template = File.ReadAllText(Path.Combine("Templates", "IClient.mustache"));
+            string template = File.ReadAllText(Path.Combine("Templates", "Client.mustache"));
             var operationsByTags = new SwaggerCSharpClientVisitor(_tags).Visit(_model).Operations;
 
-            foreach (IGrouping<string, CSharpOperationModel> group in operationsByTags)
+            foreach (IGrouping<string, object> group in operationsByTags)
             {
                 string tag = group.Key;
-                var operations = group.Select(o => new
-                {
-                    o.Id,
-                    ResultType = o.SyncResultType,
-                    o.Path,
-                    HttpMethod = o.HttpMethodUpper,
-                    IsVoid = o.SyncResultType.Equals("void")
-                });
-
+                IEnumerable<object> operations = group;
 
                 var content = new
                 {
+                    Tag = tag,
                     Subsystem = _subsystem,
                     ServiceName = _serviceName,
                     Operations = operations
