@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
+using {{Subsystem}}.{{ServiceName}}.WebApi.Contracts;
 
 namespace {{Subsystem}}.{{ServiceName}}.WebApi.Client
 {
@@ -18,23 +20,33 @@ namespace {{Subsystem}}.{{ServiceName}}.WebApi.Client
 {{#Operations}}
 {{#IsVoid}}
 {{#HasInput}}
-	Task {{Id}}({{Name}}Request request, CancellationToken cancelToken = default)
+	public Task {{Id}}({{Name}}Request request, CancellationToken cancelToken = default)
 {{/HasInput}}
 {{^HasInput}}
-    Task {{Id}}(CancellationToken cancelToken = default)
+    public Task {{Id}}(CancellationToken cancelToken = default)
 {{/HasInput}}
 {{/IsVoid}}
 {{^IsVoid}}
 {{#HasInput}}
-	Task<{{ResultType}}> {{Id}}({{Name}}Request request, CancellationToken cancelToken = default)
+	public Task<{{ResultType}}> {{Id}}({{Name}}Request request, CancellationToken cancelToken = default)
 {{/HasInput}}
 {{^HasInput}}
-    Task<{{ResultType}}> {{Id}}(CancellationToken cancelToken = default)
+    public Task<{{ResultType}}> {{Id}}(CancellationToken cancelToken = default)
 {{/HasInput}}
 {{/IsVoid}}
         {
             string path = $"{{Path}}";
-            return _client.{{HttpMethod}}Async<{{TRequest}},{{ResultType}}>(path);
+{{#HasBody}}
+            return _client.{{HttpMethod}}Async<{{BodyType}}, {{ResultType}}>(path, request.Body, cancelToken);
+{{/HasBody}}
+{{^HasBody}}
+{{#IsVoid}}
+            return _client.{{HttpMethod}}Async(path, cancelToken);
+{{/IsVoid}}
+{{^IsVoid}}
+            return _client.{{HttpMethod}}Async<{{ResultType}}>(path, cancelToken);
+{{/IsVoid}}
+{{/HasBody}}
         }
 {{/Operations}}
     }

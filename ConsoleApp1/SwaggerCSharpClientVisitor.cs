@@ -39,6 +39,8 @@ namespace ConsoleApp1
 
             string path = ModifyPath(op.Path);
 
+            var body = op.Parameters.FirstOrDefault(p => p.Kind == NSwag.SwaggerParameterKind.Body);
+
             var theOp = new
             {
                 op.Id,
@@ -47,11 +49,17 @@ namespace ConsoleApp1
                 Path = path,
                 HttpMethod = op.HttpMethodUpper,
                 IsVoid = op.SyncResultType.Equals("void"),
-                HasInput = op.HasBody || op.HasQueryParameters || op.PathParameters.Any()
+                HasInput = op.HasBody || op.HasQueryParameters || op.PathParameters.Any(),
+                HasBody = op.HasBody,
+                BodyType = body?.Type
             };
 
-            _operations.Add((tag, theOp));
 
+
+            
+
+            _operations.Add((tag, theOp));
+            
             Visit(op.Path, op.PathParameters, op.QueryParameters);
         }
 

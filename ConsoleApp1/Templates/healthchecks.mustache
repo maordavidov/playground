@@ -1,0 +1,15 @@
+﻿using Infra.Infrastucture;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+
+namespace {{Subsystem}}.Extensions.HealthChecks
+{
+    public static class {{ServiceName}}HealthChecks
+    {
+        public static IHealthChecksBuilder Add{{ServiceName}}(this IHealthChecksBuilder builder, string baseUrl)
+        {
+            Throw.IfNullOrEmpty(baseUrl, nameof(baseUrl));
+            return builder.AddUrlGroup(new Uri($"{baseUrl}/hc"), "{{ServiceName}}");
+        }
+    }
+}

@@ -22,3 +22,6 @@ C:\projects\pppplayground\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.Assemb
 C:\projects\pppplayground\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.dll
 C:\projects\pppplayground\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.pdb
 C:\projects\pppplayground\ConsoleApp1\bin\Debug\netcoreapp2.2\Templates\Client.mustache
+C:\projects\pppplayground\ConsoleApp1\bin\Debug\netcoreapp2.2\Templates\csproj.mustache
+C:\projects\pppplayground\ConsoleApp1\bin\Debug\netcoreapp2.2\Templates\healthchecks.mustache
+C:\projects\pppplayground\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.csprojAssemblyReference.cache

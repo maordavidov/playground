@@ -15,6 +15,8 @@ namespace ConsoleApp1
         private string _subsystem;
         private string _serviceName;
         private (string Path, string HttpMethod, string Tag)[] _tags;
+        private string[] _files = new[] { "Client.mustache", "csproj.mustache", "healthchecks.mustache", "IClient.mustache" };
+        private int _renderCount = 0;
 
         public TempalteRenderer(string subsystem, string serviceName, (string Path, string HttpMethod, string Tag)[] tags, object model)
         {
@@ -28,7 +30,8 @@ namespace ConsoleApp1
 
         public string Render()
         {
-            string template = File.ReadAllText(Path.Combine("Templates", "Client.mustache"));
+
+            string template = File.ReadAllText(Path.Combine("Templates", "healthchecks.mustache"));
             var operationsByTags = new SwaggerCSharpClientVisitor(_tags).Visit(_model).Operations;
 
             foreach (IGrouping<string, object> group in operationsByTags)
@@ -48,6 +51,8 @@ namespace ConsoleApp1
 
                 return con;
             }
+
+            _renderCount++;
 
             return "";
            
