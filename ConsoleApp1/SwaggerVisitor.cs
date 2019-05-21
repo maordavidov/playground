@@ -31,7 +31,7 @@ namespace ConsoleApp1
                 SwaggerOperation op = pair.Value;
                 string tag = op.Tags.Single();
 
-                _tags.Add((path.Key, pair.Key, tag));
+                _tags.Add((path.Key.TrimStart('/'), pair.Key, tag));
             }
         }
 

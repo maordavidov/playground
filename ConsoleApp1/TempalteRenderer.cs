@@ -28,29 +28,35 @@ namespace ConsoleApp1
         public string Render()
         {
             string template = File.ReadAllText(Path.Combine("Templates", "IClient.mustache"));
+            var operationsByTags = new SwaggerCSharpClientVisitor(_tags).Visit(_model).Operations;
 
-            var operations = _model.Operations.Select(o => new
+            foreach (IGrouping<string, CSharpOperationModel> group in operationsByTags)
             {
-                o.Id,
-                ResultType = o.SyncResultType,
-                o.Path,
-                HttpMethod = o.HttpMethodUpper,
-                IsVoid = o.SyncResultType.Equals("void")
-            });
+                string tag = group.Key;
+                var operations = group.Select(o => new
+                {
+                    o.Id,
+                    ResultType = o.SyncResultType,
+                    o.Path,
+                    HttpMethod = o.HttpMethodUpper,
+                    IsVoid = o.SyncResultType.Equals("void")
+                });
 
 
-            var content = new
-            {
-                Subsystem = _subsystem,
-                ServiceName = _serviceName,
-                Operations = operations
-            };
+                var content = new
+                {
+                    Subsystem = _subsystem,
+                    ServiceName = _serviceName,
+                    Operations = operations
+                };
 
-            new SwaggerCSharpClientVisitor().Visit(_model);
+                string con = _stuble.RenderAsync(template, content).Result;
 
-           string con = _stuble.RenderAsync(template, content).Result;
+                return con;
+            }
 
-            return con;
+            return "";
+           
         }
     }
 }
