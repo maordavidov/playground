@@ -19,11 +19,11 @@ namespace ConsoleApp1
         {
             var httpClient = new System.Net.Http.HttpClient();
             
-            string content = await httpClient.GetStringAsync("https://qa.trunovate.com/apigateway/swagger/1.0.0.0/swagger.json");
+            string content = await httpClient.GetStringAsync("https://qa.trunovate.com/entitymanager/swagger/1.1.0.0/swagger.json");
             string theNamespace = "PlantSharp.EntityManager.WebApi.Client";
 
             string subsystem = "PlantSharp";
-            string serviceName = "ApiGateway";
+            string serviceName = "EntityManager";
             string version = "1.1.0.0";
             var dir = Path.GetFullPath("./proj");
 
