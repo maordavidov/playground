@@ -1,4 +1,5 @@
 ﻿using NSwag.CodeGeneration.CSharp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -46,14 +47,13 @@ namespace ConsoleApp1
             if (theDef.Equals("void") == false)
             {
                 var defs = _definitions.Where(d => d.EndsWith(op.SyncResultType));
-                if(defs.Count() > 1)
+                if (defs.Count() > 1)
                 {
                     defs = defs.Where(d => d.Contains("Response"));
                 }
 
                 theDef = defs.Single();
             }
-            
 
             var theOp = new
             {
@@ -66,7 +66,8 @@ namespace ConsoleApp1
                 HasInput = op.HasBody || op.HasQueryParameters || op.PathParameters.Any(),
                 HasBody = op.HasBody,
                 BodyType = body?.Type,
-                NotSupported = op.HasFormParameters
+                NotSupported = op.HasFormParameters,
+                QueryParams = op.QueryParameters
             };
 
 

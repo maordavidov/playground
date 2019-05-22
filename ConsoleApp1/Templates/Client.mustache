@@ -40,7 +40,7 @@ namespace {{Subsystem}}.{{ServiceName}}.WebApi.Client
             throw new NotSupportedException("This operation is not yet supported by the client.");
 {{/NotSupported}}
 {{^NotSupported}}
-            string path = $"{{Path}}";
+            string path = $"{{Path}}?{{#queryParams}}{{Name}}={request.{{Name}}}&{{/queryParams}}";
 {{#HasBody}}
 {{#IsVoid}}
             return _client.{{HttpMethod}}Async<{{BodyType}}>(path, request.Body, cancelToken);

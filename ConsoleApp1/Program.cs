@@ -13,8 +13,6 @@ namespace ConsoleApp1
         private static void Main(string[] args)
         {
             GenerateAsync().Wait();
-
-            Console.ReadLine();
         }
 
         public static async Task GenerateAsync()
