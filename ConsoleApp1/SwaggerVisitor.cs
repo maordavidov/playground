@@ -1,4 +1,5 @@
-﻿using NSwag;
+﻿using NJsonSchema;
+using NSwag;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ConsoleApp1
     public class SwaggerVisitor
     {
         private List<(string, string, string)> _tags;
-
+        //((NSwag.Collections.ObservableDictionary<string, NJsonSchema.JsonSchema4>)document.Definitions).Keys
         public SwaggerVisitor Visit(SwaggerDocument document)
         {
             _tags = new List<(string, string, string)>();
@@ -19,7 +20,14 @@ namespace ConsoleApp1
                 Visit(path);
             }
 
+            Visit(document.Definitions);
+
             return this;
+        }
+
+        private void Visit(IDictionary<string, JsonSchema4> definitions)
+        {
+            Definitions = definitions.Keys.ToArray();
         }
 
         protected virtual void Visit(KeyValuePair<string, SwaggerPathItem> path)
@@ -36,5 +44,7 @@ namespace ConsoleApp1
         }
 
         public (string Path, string HttpMethod, string Tag)[] Tags => _tags.ToArray();
+
+        public string[] Definitions { get; private set; }
     }
 }

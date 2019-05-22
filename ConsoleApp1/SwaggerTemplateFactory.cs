@@ -27,8 +27,14 @@ namespace ConsoleApp1
         {
             if(model is CSharpClientTemplateModel)
             {
-                var tags = new SwaggerVisitor().Visit(_swaggerDoc).Tags;
-                return new TempalteRenderer(_sink, _subsystem, _serviceName, tags, (CSharpClientTemplateModel) model);
+                var visitor = new SwaggerVisitor().Visit(_swaggerDoc);
+                
+                return new TempalteRenderer(_sink, 
+                                            _subsystem, 
+                                            _serviceName, 
+                                            visitor.Tags, 
+                                            visitor.Definitions, 
+                                            (CSharpClientTemplateModel) model);
             }
 
             return new NullTemplateRenderer();

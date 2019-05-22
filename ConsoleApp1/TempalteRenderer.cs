@@ -16,14 +16,20 @@ namespace ConsoleApp1
         private string _subsystem;
         private string _serviceName;
         private (string Path, string HttpMethod, string Tag)[] _tags;
+        private string[] _definitions;
 
-        public TempalteRenderer(ITemplateSink sink, string subsystem, string serviceName, (string Path, string HttpMethod, string Tag)[] tags, CSharpClientTemplateModel model)
+        public TempalteRenderer(ITemplateSink sink, 
+                                string subsystem, 
+                                string serviceName, 
+                                (string Path, string HttpMethod, string Tag)[] tags,
+                                string[] definitions,
+                                CSharpClientTemplateModel model)
         {
             _sink = sink;
             _subsystem = subsystem;
             _serviceName = serviceName;
             _tags = tags;
-
+            _definitions = definitions;
             this._model = model;
             _stuble = new StubleRenderer();
         }
@@ -32,7 +38,7 @@ namespace ConsoleApp1
         {
             SetupRootFolder();
           
-            var operationsByTags = new SwaggerCSharpClientVisitor(_tags).Visit(_model).Operations;
+            var operationsByTags = new SwaggerCSharpClientVisitor(_tags, _definitions).Visit(_model).Operations;
 
             foreach ((string templateFile, string name) in TemplateFiles())
             {

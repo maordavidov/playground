@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using {{Subsystem}}.{{ServiceName}}.WebApi.Contracts.Requests;
 
 namespace {{Subsystem}}.{{ServiceName}}.WebApi.Client
 {
@@ -14,7 +15,7 @@ namespace {{Subsystem}}.{{ServiceName}}.WebApi.Client
 {{/NotSupported}}
 {{#IsVoid}}
 {{#HasInput}}
-	Task {{Id}}({{Name}}Request request, CancellationToken cancelToken = default);
+	Task {{Id}} ({{Name}}Request request, CancellationToken cancelToken = default);
 {{/HasInput}}
 {{^HasInput}}
     Task {{Id}}(CancellationToken cancelToken = default);
