@@ -7,6 +7,7 @@ namespace ConsoleApp1
 {
     public interface ITemplateSink
     {
+        void SetupRoot(string root);
         void Receive(string templateName, string content);
     }
 
@@ -23,6 +24,12 @@ namespace ConsoleApp1
         public void Receive(string name, string content)
         {
             File.WriteAllText(Path.Combine(_dir, name), content);
+        }
+
+        public void SetupRoot(string root)
+        {
+            _dir = Path.Combine(_dir, root);
+            Directory.CreateDirectory(_dir);
         }
     }
 }

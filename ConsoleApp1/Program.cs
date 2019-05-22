@@ -25,7 +25,7 @@ namespace ConsoleApp1
             string theNamespace = "PlantSharp.EntityManager.WebApi.Client";
 
             string subsystem = "PlantSharp";
-            string serviceName = "EntityManager";
+            string serviceName = "ApiGateway";
             string version = "1.1.0.0";
             var dir = Path.GetFullPath("./proj");
 

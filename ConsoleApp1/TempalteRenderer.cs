@@ -30,6 +30,8 @@ namespace ConsoleApp1
 
         public string Render()
         {
+            SetupRootFolder();
+          
             var operationsByTags = new SwaggerCSharpClientVisitor(_tags).Visit(_model).Operations;
 
             foreach ((string templateFile, string name) in TemplateFiles())
@@ -46,6 +48,19 @@ namespace ConsoleApp1
             }
 
             return "";
+        }
+
+        private void SetupRootFolder()
+        {
+            var content = new
+            {
+                Subsystem = _subsystem,
+                ServiceName = _serviceName
+            };
+
+            string folder = "{{Subsystem}}.{{ServiceName}}.WebApi.Client";
+            folder = _stuble.RenderAsync(folder, content).Result;
+            _sink.SetupRoot(folder);
         }
 
         private void RenderGlobal(string name, string template)
