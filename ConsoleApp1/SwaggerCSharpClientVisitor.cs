@@ -51,10 +51,11 @@ namespace ConsoleApp1
                 IsVoid = op.SyncResultType.Equals("void"),
                 HasInput = op.HasBody || op.HasQueryParameters || op.PathParameters.Any(),
                 HasBody = op.HasBody,
-                BodyType = body?.Type
+                BodyType = body?.Type,
+                NotSupported = op.HasFormParameters
             };
 
-
+            
 
             
 

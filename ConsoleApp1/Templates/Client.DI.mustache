@@ -1,0 +1,15 @@
+﻿using {{Subsystem}}.{{ServiceName}}.WebApi.Client;
+using {{Subsystem}}.{{ServiceName}}.WebApi.Client.Abstractions;
+using Infra.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace {{Subsystem}}.Extensions.DependencyInjection
+{
+    public static partial class DependencyInjection
+    {
+        public static IServiceCollection Add{{Tag}}Client(this IServiceCollection collection, string url)
+        {
+            return collection.AddApiClient<I{{Tag}}Client, {{Tag}}Client>(url);
+        }
+    }
+}

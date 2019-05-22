@@ -9,6 +9,9 @@ namespace {{Subsystem}}.{{ServiceName}}.WebApi.Client
     public interface I{{Tag}}Client
     {
 {{#Operations}}
+{{#NotSupported}}
+    [Obsolete("This operation is not yet supported by the client.")]
+{{/NotSupported}}
 {{#IsVoid}}
 {{#HasInput}}
 	Task {{Id}}({{Name}}Request request, CancellationToken cancelToken = default);

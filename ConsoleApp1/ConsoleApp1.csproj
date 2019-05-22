@@ -13,6 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Templates\Client.DI.mustache">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\csproj.mustache">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -12,28 +12,58 @@ namespace ConsoleApp1
     {
         private CSharpClientTemplateModel _model;
         private StubleRenderer _stuble;
+        private ITemplateSink _sink;
         private string _subsystem;
         private string _serviceName;
         private (string Path, string HttpMethod, string Tag)[] _tags;
-        private string[] _files = new[] { "Client.mustache", "csproj.mustache", "healthchecks.mustache", "IClient.mustache" };
-        private int _renderCount = 0;
 
-        public TempalteRenderer(string subsystem, string serviceName, (string Path, string HttpMethod, string Tag)[] tags, object model)
+        public TempalteRenderer(ITemplateSink sink, string subsystem, string serviceName, (string Path, string HttpMethod, string Tag)[] tags, CSharpClientTemplateModel model)
         {
+            _sink = sink;
             _subsystem = subsystem;
             _serviceName = serviceName;
             _tags = tags;
 
-            this._model = (CSharpClientTemplateModel)model;
+            this._model = model;
             _stuble = new StubleRenderer();
         }
 
         public string Render()
         {
-
-            string template = File.ReadAllText(Path.Combine("Templates", "healthchecks.mustache"));
             var operationsByTags = new SwaggerCSharpClientVisitor(_tags).Visit(_model).Operations;
 
+            foreach ((string templateFile, string name) in TemplateFiles())
+            {
+                string template = File.ReadAllText(Path.Combine("Templates", templateFile));
+                if (template.Contains("Client"))
+                {
+                    RenderClient(operationsByTags, name, template);
+                }
+                else
+                {
+                    RenderGlobal(name, template);
+                }
+            }
+
+            return "";
+        }
+
+        private void RenderGlobal(string name, string template)
+        {
+            var content = new
+            {
+                Subsystem = _subsystem,
+                ServiceName = _serviceName
+            };
+
+            string theName = _stuble.RenderAsync(name, content).Result;
+            string theContent = _stuble.RenderAsync(template, content).Result;
+
+            _sink.Receive(theName, theContent);
+        }
+
+        private void RenderClient(ILookup<string, object> operationsByTags, string name, string template)
+        {
             foreach (IGrouping<string, object> group in operationsByTags)
             {
                 string tag = group.Key;
@@ -47,15 +77,20 @@ namespace ConsoleApp1
                     Operations = operations
                 };
 
-                string con = _stuble.RenderAsync(template, content).Result;
+                string theName = _stuble.RenderAsync(name, content).Result;
+                string theContent = _stuble.RenderAsync(template, content).Result;
 
-                return con;
+                _sink.Receive(theName, theContent);
             }
+        }
 
-            _renderCount++;
-
-            return "";
-           
+        private IEnumerable<(string templateFile, string name)> TemplateFiles()
+        {
+            yield return ("Client.DI.mustache", "{{Tag}}Client.DI.cs");
+            yield return ("IClient.mustache", "I{{Tag}}Client.cs");
+            yield return ("Client.mustache", "{{Tag}}Client.cs");
+            yield return ("csproj.mustache", "{{Subsystem}}.{{ServiceName}}.WebApi.Client.csproj");
+            yield return ("healthchecks.mustache", "{{ServiceName}}HealthChecks.cs");
         }
     }
 }

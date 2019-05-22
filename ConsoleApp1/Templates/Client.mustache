@@ -35,9 +35,18 @@ namespace {{Subsystem}}.{{ServiceName}}.WebApi.Client
 {{/HasInput}}
 {{/IsVoid}}
         {
+{{#NotSupported}}
+            throw new NotSupportedException("This operation is not yet supported by the client.");
+{{/NotSupported}}
+{{^NotSupported}}
             string path = $"{{Path}}";
 {{#HasBody}}
+{{#IsVoid}}
+            return _client.{{HttpMethod}}Async<{{BodyType}}>(path, request.Body, cancelToken);
+{{/IsVoid}}
+{{^IsVoid}}
             return _client.{{HttpMethod}}Async<{{BodyType}}, {{ResultType}}>(path, request.Body, cancelToken);
+{{/IsVoid}}
 {{/HasBody}}
 {{^HasBody}}
 {{#IsVoid}}
@@ -47,6 +56,7 @@ namespace {{Subsystem}}.{{ServiceName}}.WebApi.Client
             return _client.{{HttpMethod}}Async<{{ResultType}}>(path, cancelToken);
 {{/IsVoid}}
 {{/HasBody}}
+{{/NotSupported}}
         }
 {{/Operations}}
     }
