@@ -15,6 +15,8 @@ namespace ConsoleApp1
         public string ServiceName { get; set; }
         [Option("-o|--output", CommandOptionType.SingleValue)]
         public string Output { get; set; }
+        [Option("--swagger", CommandOptionType.SingleValue)]
+        public string Swagger { get; set; }
 
         private static void Main(string[] args)
         {
@@ -28,9 +30,12 @@ namespace ConsoleApp1
 
         public async Task GenerateAsync()
         {
-            var httpClient = new System.Net.Http.HttpClient();
+            //var httpClient = new System.Net.Http.HttpClient();
             
-            string content = await httpClient.GetStringAsync("https://qa.trunovate.com/entitymanager/swagger/1.1.0.0/swagger.json");
+            //string content = await httpClient.GetStringAsync("https://qa.trunovate.com/entitymanager/swagger/1.1.0.0/swagger.json");
+
+            string content = File.ReadAllText(Swagger);
+
             var dir = Path.GetFullPath(Output);
 
             var fileSink = new FileSink(dir);

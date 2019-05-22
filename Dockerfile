@@ -1,5 +1,6 @@
 ﻿FROM mcr.microsoft.com/dotnet/core/runtime:2.2 AS base
 WORKDIR /app
+VOLUME [ "/data" ]
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 ARG VERSION=1.0.0
