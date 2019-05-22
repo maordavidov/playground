@@ -6,26 +6,19 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    internal class Program
+    public class Program
     {
-
-        
         private static void Main(string[] args)
         {
-            GenerateAsync().Wait();
+            GenerateAsync(args[0], args[1], args[2]).Wait();
         }
 
-        public static async Task GenerateAsync()
+        public static async Task GenerateAsync(string subsystem, string serviceName, string output)
         {
             var httpClient = new System.Net.Http.HttpClient();
             
             string content = await httpClient.GetStringAsync("https://qa.trunovate.com/entitymanager/swagger/1.1.0.0/swagger.json");
-            string theNamespace = "PlantSharp.EntityManager.WebApi.Client";
-
-            string subsystem = "PlantSharp";
-            string serviceName = "EntityManager";
-            string version = "1.1.0.0";
-            var dir = Path.GetFullPath("./proj");
+            var dir = Path.GetFullPath(output);
 
             var fileSink = new FileSink(dir);
 
@@ -35,7 +28,6 @@ namespace ConsoleApp1
             {
                 CSharpGeneratorSettings = {
 
-                    Namespace = theNamespace,
                     TemplateFactory = new SwaggerTemplateFactory(document,fileSink, subsystem, serviceName)
                 }
             };
