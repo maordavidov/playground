@@ -1,4 +1,5 @@
-﻿using NSwag;
+﻿using McMaster.Extensions.CommandLineUtils;
+using NSwag;
 using NSwag.CodeGeneration.CSharp;
 using System;
 using System.IO;
@@ -8,17 +9,29 @@ namespace ConsoleApp1
 {
     public class Program
     {
+        [Option("-s|--subsystem", CommandOptionType.SingleValue)]
+        public string Subsystem { get; set; }
+        [Option("-n|--serviceName", CommandOptionType.SingleValue)]
+        public string ServiceName { get; set; }
+        [Option("-o|--output", CommandOptionType.SingleValue)]
+        public string Output { get; set; }
+
         private static void Main(string[] args)
         {
-            GenerateAsync(args[0], args[1], args[2]).Wait();
+            CommandLineApplication.Execute<Program>(args);
         }
 
-        public static async Task GenerateAsync(string subsystem, string serviceName, string output)
+        public void OnExecute()
+        {
+            GenerateAsync().Wait();
+        }
+
+        public async Task GenerateAsync()
         {
             var httpClient = new System.Net.Http.HttpClient();
             
             string content = await httpClient.GetStringAsync("https://qa.trunovate.com/entitymanager/swagger/1.1.0.0/swagger.json");
-            var dir = Path.GetFullPath(output);
+            var dir = Path.GetFullPath(Output);
 
             var fileSink = new FileSink(dir);
 
@@ -28,7 +41,7 @@ namespace ConsoleApp1
             {
                 CSharpGeneratorSettings = {
 
-                    TemplateFactory = new SwaggerTemplateFactory(document,fileSink, subsystem, serviceName)
+                    TemplateFactory = new SwaggerTemplateFactory(document,fileSink, Subsystem, ServiceName)
                 }
             };
 
